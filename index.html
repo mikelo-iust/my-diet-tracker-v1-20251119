@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FitTrack</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>FitTrack</h1>
+    <p class="tagline">Track meals, workouts, weight progress, and use an AI assistant to paste/upload food photos.</p>
+  </header>
+
+  <main class="container">
+    <section class="panel" id="profile-panel">
+      <h2>Profile & Goals</h2>
+      <form id="profile-form" class="form-grid">
+        <label>Sex
+          <select id="sex">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </label>
+        <label>Age <input id="age" type="number" min="10" max="120" /></label>
+        <label>Height (cm) <input id="height" type="number" min="50" max="300" /></label>
+        <label>Current Weight (kg) <input id="current-weight" type="number" step="0.1" /></label>
+        <label>Target Weight (kg) <input id="target-weight" type="number" step="0.1" /></label>
+        <label>Current BMI <input id="current-bmi" type="text" readonly /></label>
+        <label>Target BMI <input id="target-bmi" type="number" step="0.01" /></label>
+        <label>Activity Level
+          <select id="activity">
+            <option value="1.2">Sedentary (little or no exercise)</option>
+            <option value="1.375">Light (1-3 days/week)</option>
+            <option value="1.55">Moderate (3-5 days/week)</option>
+            <option value="1.725">Active (6-7 days/week)</option>
+            <option value="1.9">Very Active (hard daily exercise)</option>
+          </select>
+        </label>
+        <label>Weekly Deficit % <input id="deficit" type="number" min="0" max="40" value="20" />%</label>
+        <div class="buttons">
+          <button id="save-profile" type="button">Save Profile</button>
+        </div>
+      </form>
+
+      <div class="summary small">
+        <p>BMR: <strong id="bmr">—</strong> kcal/day</p>
+        <p>TDEE: <strong id="tdee">—</strong> kcal/day</p>
+        <p>Daily Target (with deficit): <strong id="daily-target">—</strong> kcal/day</p>
+        <p>Daily Remaining (today): <strong id="daily-remaining">—</strong> kcal</p>
+      </div>
+    </section>
+
+    <section class="panel" id="food-panel">
+      <h2>Diet — Add Meal</h2>
+      <form id="food-form" class="form-inline">
+        <input id="food-name" type="text" placeholder="Food name" required />
+        <input id="food-calories" type="number" min="0" placeholder="Calories" required />
+        <button type="submit">Add Food</button>
+      </form>
+
+      <div class="list-wrap calendar-block">
+        <div class="calendar-header">
+          <button id="toggle-calendar" class="link">Today • <span id="today-label"></span></button>
+          <div class="calendar-controls">
+            <button id="prev-day">◀</button>
+            <button id="next-day">▶</button>
+          </div>
+        </div>
+        <ul id="food-list" class="entry-list"></ul>
+        <p class="summary">Total Consumed: <strong id="total-consumed">0</strong> kcal</p>
+      </div>
+
+      <div class="photo-block">
+        <h4>AI Chatbot & Photo (paste or upload)</h4>
+        <div id="chat" class="chat">
+          <div id="messages" class="messages"></div>
+          <div class="chat-controls">
+            <input id="chat-input" placeholder="Ask the assistant or paste an image..." />
+            <button id="send-msg">Send</button>
+            <input id="photo-input" type="file" accept="image/*" style="display:none" />
+            <button id="attach-btn">Attach</button>
+          </div>
+          <p class="muted">You may paste an image from clipboard into the page or use Attach.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="workout-panel">
+      <h2>Workout — Add Exercise</h2>
+      <form id="workout-form" class="form-inline">
+        <input id="workout-name" type="text" placeholder="Exercise (e.g., Running)" required />
+        <input id="workout-calories" type="number" min="0" placeholder="Calories Burned" required />
+        <button type="submit">Add Workout</button>
+      </form>
+
+      <div class="list-wrap">
+        <ul id="workout-list" class="entry-list"></ul>
+        <p class="summary">Total Burned: <strong id="total-burned">0</strong> kcal</p>
+      </div>
+    </section>
+
+    <section class="panel" id="summary-panel">
+      <h2>Daily Summary</h2>
+      <p>Net Calories: <strong id="net-calories">0</strong> kcal</p>
+      <p class="muted">Net = Consumed - Burned</p>
+      <button id="reset-btn" class="danger">Reset All</button>
+    </section>
+  </main>
+
+  <div id="notification-modal" class="modal hidden">
+    <div class="modal-body">
+      <h3 id="modal-title">Update</h3>
+      <p id="modal-message"></p>
+      <button id="modal-ok">OK</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>App prototype — later add backend, authentication, and a real AI service.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
