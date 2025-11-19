@@ -10,45 +10,105 @@
   <nav class="topnav">
     <div class="brand">FitTrack</div>
     <div class="nav-actions">
-      <button id="ai-assistant" class="btn small">AI Assistant</button>
-      <button id="add-meal" class="btn small">+ Add Meal</button>
-      <button id="add-workout" class="btn small ghost">Add Workout</button>
+      <button id="ai-assistant" class="btn outline">AI Assistant</button>
+      <button id="add-meal" class="btn primary">+ Add Meal</button>
+      <button id="add-workout" class="btn outline">Add Workout</button>
     </div>
   </nav>
 
-  <header class="site-header">
-    <div class="date-row">
-      <div class="date-left">
-        <div class="date-title" id="date-title">Today</div>
-        <div class="date-sub" id="date-sub">View different dates</div>
+  <header class="page-header">
+    <div class="date-card">
+      <div class="date-icon">📅</div>
+      <div class="date-info">
+        <div class="date-title" id="date-title">Wednesday, November 19, 2025</div>
+        <div class="date-sub">View different dates</div>
       </div>
-      <div class="kpi-row">
-        <div class="kpi-card">
-          <div class="kpi-icon">🍎</div>
+      <button class="date-toggle">▾</button>
+    </div>
+
+    <div class="kpi-cards">
+      <div class="kpi-card">
+        <div class="kpi-left"><div class="kpi-icon">🍎</div></div>
+        <div class="kpi-right">
           <div class="kpi-label">Consumed</div>
           <div class="kpi-value" id="kpi-consumed">0</div>
           <div class="kpi-unit">calories</div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-icon">🔥</div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-left"><div class="kpi-icon">🔥</div></div>
+        <div class="kpi-right">
           <div class="kpi-label">Burned</div>
           <div class="kpi-value" id="kpi-burned">0</div>
           <div class="kpi-unit">calories</div>
         </div>
-        <div class="kpi-card kpi-remaining">
-          <div class="kpi-icon">📉</div>
+      </div>
+
+      <div class="kpi-card kpi-remaining">
+        <div class="kpi-left"><div class="kpi-icon">📉</div></div>
+        <div class="kpi-right">
           <div class="kpi-label">Remaining</div>
           <div class="kpi-value large" id="kpi-remaining">2000</div>
           <div class="kpi-unit">calories</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:20%"></div></div>
         </div>
       </div>
     </div>
   </header>
 
   <main class="container">
-    <section class="panel" id="profile-panel">
-      <h2>Profile & Goals</h2>
-      <form id="profile-form" class="form-grid">
+    <section class="panel activity-panel">
+      <h3>Today's Activity</h3>
+      <div class="empty-state">No activities logged yet today</div>
+    </section>
+
+    <aside class="panel weight-panel">
+      <div class="weight-header">
+        <div class="weight-icon">⚖️</div>
+        <div>
+          <h3>Weight Progress</h3>
+          <p class="muted">Track your journey</p>
+        </div>
+      </div>
+
+      <div class="weight-grid">
+        <div class="weight-box">
+          <div class="box-label">Current Weight</div>
+          <div class="box-value" id="display-current-weight">75 kg</div>
+          <div class="box-sub">Click to edit</div>
+        </div>
+
+        <div class="weight-box">
+          <div class="box-label">Target Weight</div>
+          <div class="box-value" id="display-target-weight">70 kg</div>
+          <div class="box-sub">Click to edit</div>
+        </div>
+
+        <div class="weight-box">
+          <div class="box-label">Height</div>
+          <div class="box-value" id="display-height">170 cm</div>
+          <div class="box-sub">Click to edit</div>
+        </div>
+
+        <div class="weight-box wide">
+          <div class="box-label">Current BMI</div>
+          <div class="box-value" id="display-current-bmi">26.0</div>
+        </div>
+
+        <div class="weight-box wide">
+          <div class="box-label">Target BMI</div>
+          <div class="box-value" id="display-target-bmi">24.2</div>
+        </div>
+
+        <div class="weight-box wide">
+          <div class="box-label">To lose</div>
+          <div class="box-value" id="display-to-lose">5.0 kg</div>
+        </div>
+      </div>
+
+      <!-- Hidden editable profile inputs still used by script.js -->
+      <form id="profile-form" class="profile-form" aria-hidden="true">
         <label>Sex
           <select id="sex">
             <option value="male">Male</option>
@@ -63,81 +123,70 @@
         <label>Target BMI <input id="target-bmi" type="number" step="0.01" /></label>
         <label>Activity Level
           <select id="activity">
-            <option value="1.2">Sedentary (little or no exercise)</option>
-            <option value="1.375">Light (1-3 days/week)</option>
-            <option value="1.55">Moderate (3-5 days/week)</option>
-            <option value="1.725">Active (6-7 days/week)</option>
-            <option value="1.9">Very Active (hard daily exercise)</option>
+            <option value="1.2">Sedentary</option>
+            <option value="1.375">Light</option>
+            <option value="1.55">Moderate</option>
+            <option value="1.725">Active</option>
+            <option value="1.9">Very Active</option>
           </select>
         </label>
         <label>Weekly Deficit % <input id="deficit" type="number" min="0" max="40" value="20" />%</label>
-        <div class="buttons">
-          <button id="save-profile" type="button">Save Profile</button>
-        </div>
+        <div style="display:none"><button id="save-profile" type="button">Save Profile</button></div>
       </form>
+    </aside>
 
-      <div class="summary small">
-        <p>BMR: <strong id="bmr">—</strong> kcal/day</p>
-        <p>TDEE: <strong id="tdee">—</strong> kcal/day</p>
-        <p>Daily Target (with deficit): <strong id="daily-target">—</strong> kcal/day</p>
-        <p>Daily Remaining (today): <strong id="daily-remaining">—</strong> kcal</p>
-      </div>
-    </section>
+    <section class="panel fullwidth">
+      <div class="split">
+        <div class="left-col">
+          <h3>Diet — Add Meal</h3>
+          <form id="food-form" class="form-inline">
+            <input id="food-name" type="text" placeholder="Food name" required />
+            <input id="food-calories" type="number" min="0" placeholder="Calories" required />
+            <button type="submit" class="btn primary small">Add Food</button>
+          </form>
 
-    <section class="panel" id="food-panel">
-      <h2>Diet — Add Meal</h2>
-      <form id="food-form" class="form-inline">
-        <input id="food-name" type="text" placeholder="Food name" required />
-        <input id="food-calories" type="number" min="0" placeholder="Calories" required />
-        <button type="submit">Add Food</button>
-      </form>
+          <div class="list-wrap">
+            <div class="calendar-header">
+              <button id="toggle-calendar" class="link">Today • <span id="today-label"></span></button>
+              <div class="calendar-controls">
+                <button id="prev-day">◀</button>
+                <button id="next-day">▶</button>
+              </div>
+            </div>
 
-      <div class="list-wrap calendar-block">
-        <div class="calendar-header">
-          <button id="toggle-calendar" class="link">Today • <span id="today-label"></span></button>
-          <div class="calendar-controls">
-            <button id="prev-day">◀</button>
-            <button id="next-day">▶</button>
+            <ul id="food-list" class="entry-list"></ul>
+            <p class="summary">Total Consumed: <strong id="total-consumed">0</strong> kcal</p>
+
+            <h3>Workout — Add Exercise</h3>
+            <form id="workout-form" class="form-inline">
+              <input id="workout-name" type="text" placeholder="Exercise (e.g., Running)" required />
+              <input id="workout-calories" type="number" min="0" placeholder="Calories Burned" required />
+              <button type="submit" class="btn outline small">Add Workout</button>
+            </form>
+
+            <ul id="workout-list" class="entry-list"></ul>
+            <p class="summary">Total Burned: <strong id="total-burned">0</strong> kcal</p>
           </div>
         </div>
-        <ul id="food-list" class="entry-list"></ul>
-        <p class="summary">Total Consumed: <strong id="total-consumed">0</strong> kcal</p>
-      </div>
 
-      <div class="photo-block">
-        <h4>AI Chatbot & Photo (paste or upload)</h4>
-        <div id="chat" class="chat">
-          <div id="messages" class="messages"></div>
-          <div class="chat-controls">
-            <input id="chat-input" placeholder="Ask the assistant or paste an image..." />
-            <button id="send-msg">Send</button>
-            <input id="photo-input" type="file" accept="image/*" style="display:none" />
-            <button id="attach-btn">Attach</button>
+        <div class="right-col">
+          <h3>Daily Summary</h3>
+          <p>Net Calories: <strong id="net-calories">0</strong> kcal</p>
+          <p class="muted">Net = Consumed - Burned</p>
+          <button id="reset-btn" class="btn outline">Reset All</button>
+
+          <h4>AI Chatbot & Photo (paste or upload)</h4>
+          <div id="chat" class="chat">
+            <div id="messages" class="messages"></div>
+            <div class="chat-controls">
+              <input id="chat-input" placeholder="Ask the assistant or paste an image..." />
+              <button id="send-msg">Send</button>
+              <input id="photo-input" type="file" accept="image/*" style="display:none" />
+              <button id="attach-btn">Attach</button>
+            </div>
           </div>
-          <p class="muted">You may paste an image from clipboard into the page or use Attach.</p>
         </div>
       </div>
-    </section>
-
-    <section class="panel" id="workout-panel">
-      <h2>Workout — Add Exercise</h2>
-      <form id="workout-form" class="form-inline">
-        <input id="workout-name" type="text" placeholder="Exercise (e.g., Running)" required />
-        <input id="workout-calories" type="number" min="0" placeholder="Calories Burned" required />
-        <button type="submit">Add Workout</button>
-      </form>
-
-      <div class="list-wrap">
-        <ul id="workout-list" class="entry-list"></ul>
-        <p class="summary">Total Burned: <strong id="total-burned">0</strong> kcal</p>
-      </div>
-    </section>
-
-    <section class="panel" id="summary-panel">
-      <h2>Daily Summary</h2>
-      <p>Net Calories: <strong id="net-calories">0</strong> kcal</p>
-      <p class="muted">Net = Consumed - Burned</p>
-      <button id="reset-btn" class="danger">Reset All</button>
     </section>
   </main>
 
@@ -150,7 +199,7 @@
   </div>
 
   <footer class="site-footer">
-    <p>App prototype — later add backend, authentication, and a real AI service.</p>
+    <p>Prototype — backend and AI integration planned.</p>
   </footer>
 
   <script src="script.js"></script>
