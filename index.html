@@ -7,9 +7,42 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <nav class="topnav">
+    <div class="brand">FitTrack</div>
+    <div class="nav-actions">
+      <button id="ai-assistant" class="btn small">AI Assistant</button>
+      <button id="add-meal" class="btn small">+ Add Meal</button>
+      <button id="add-workout" class="btn small ghost">Add Workout</button>
+    </div>
+  </nav>
+
   <header class="site-header">
-    <h1>FitTrack</h1>
-    <p class="tagline">Track meals, workouts, weight progress, and use an AI assistant to paste/upload food photos.</p>
+    <div class="date-row">
+      <div class="date-left">
+        <div class="date-title" id="date-title">Today</div>
+        <div class="date-sub" id="date-sub">View different dates</div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-icon">🍎</div>
+          <div class="kpi-label">Consumed</div>
+          <div class="kpi-value" id="kpi-consumed">0</div>
+          <div class="kpi-unit">calories</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-icon">🔥</div>
+          <div class="kpi-label">Burned</div>
+          <div class="kpi-value" id="kpi-burned">0</div>
+          <div class="kpi-unit">calories</div>
+        </div>
+        <div class="kpi-card kpi-remaining">
+          <div class="kpi-icon">📉</div>
+          <div class="kpi-label">Remaining</div>
+          <div class="kpi-value large" id="kpi-remaining">2000</div>
+          <div class="kpi-unit">calories</div>
+        </div>
+      </div>
+    </div>
   </header>
 
   <main class="container">
